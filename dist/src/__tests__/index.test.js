@@ -40,7 +40,7 @@ dotenv.config();
 const reset_dbs_1 = require("../../scripts/reset_dbs");
 const supertest_1 = __importDefault(require("supertest"));
 const app_1 = require("../app");
-const postgres_connect_1 = require("../model/postgres-connect");
+// import { disconnect } from '../model/postgres-connect';
 const API_VERSION = process.env.API_VERSION;
 let signInJwtToken = '';
 describe('Launches API', () => {
@@ -48,7 +48,7 @@ describe('Launches API', () => {
         yield (0, reset_dbs_1.resetDatabase)();
     }));
     afterAll(() => __awaiter(void 0, void 0, void 0, function* () {
-        yield (0, postgres_connect_1.disconnect)();
+        // await disconnect();
     }));
     describe('Test POST /register', () => {
         const registerData = {

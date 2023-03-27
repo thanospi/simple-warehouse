@@ -10,15 +10,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.driversDB = void 0;
+const Drivers_1 = require("../entity/Drivers");
+// import { pool } from '../postgres-connect';
 const postgres_connect_1 = require("../postgres-connect");
 exports.driversDB = {};
+const driversRepository = postgres_connect_1.AppDataSource.getRepository(Drivers_1.Drivers);
 // get drivers
 exports.driversDB.getDrivers = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { rows } = yield postgres_connect_1.pool.query(`
-    SELECT * 
-    FROM drivers
-    `);
+        //   const { rows } = await pool.query(`
+        //   SELECT *
+        //   FROM drivers
+        //   `);
+        const rows = yield driversRepository.find();
         return rows;
     }
     catch (error) {
@@ -28,10 +32,14 @@ exports.driversDB.getDrivers = () => __awaiter(void 0, void 0, void 0, function*
 // create one driver
 exports.driversDB.createOne = (driver) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { rows } = yield postgres_connect_1.pool.query(`
-    INSERT INTO drivers
-    VALUES ('${driver.name}', '${driver.cluster}')
-    `);
+        // const { rows } = await pool.query(`
+        // INSERT INTO drivers
+        // VALUES ('${driver.name}', '${driver.cluster}')
+        // `);
+        const new_driver = new Drivers_1.Drivers();
+        new_driver.name = driver.name;
+        new_driver.cluster = driver.cluster;
+        const rows = yield driversRepository.save(new_driver);
         return rows;
     }
     catch (error) {
@@ -41,14 +49,23 @@ exports.driversDB.createOne = (driver) => __awaiter(void 0, void 0, void 0, func
 // update a driver
 exports.driversDB.updateOne = (driver) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { rows } = yield postgres_connect_1.pool.query(`
-      UPDATE drivers
-      SET 
-        name = '${driver.newName}',
-        cluster = '${driver.cluster}'
-      WHERE name = '${driver.name}'
-      `);
-        return rows;
+        // const { rows } = await pool.query(`
+        //   UPDATE drivers
+        //   SET
+        //     name = '${driver.newName}',
+        //     cluster = '${driver.cluster}'
+        //   WHERE name = '${driver.name}'
+        //   `);
+        const driverToUpdate = yield driversRepository.findOneBy({
+            name: driver.name
+        });
+        if (driverToUpdate) {
+            driverToUpdate.name = driver.name;
+            driverToUpdate.cluster = driver.cluster;
+            const updatedDriver = driversRepository.save(driverToUpdate);
+            return updatedDriver;
+        }
+        return '';
     }
     catch (error) {
         throw new Error(`'Database Error', ${error}`);
@@ -57,11 +74,18 @@ exports.driversDB.updateOne = (driver) => __awaiter(void 0, void 0, void 0, func
 //delete a driver
 exports.driversDB.deleteOne = (driverName) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { rows } = yield postgres_connect_1.pool.query(`
-        DELETE FROM drivers 
-        WHERE name = '${driverName}'
-        `);
-        return rows;
+        // const { rows } = await pool.query(`
+        //     DELETE FROM drivers
+        //     WHERE name = '${driverName}'
+        //     `);
+        const driverToRemove = yield driversRepository.findOneBy({
+            name: driverName
+        });
+        if (driverToRemove) {
+            const removedDriver = yield driversRepository.remove(driverToRemove);
+            return removedDriver;
+        }
+        return '';
     }
     catch (error) {
         throw new Error(`'Database Error', ${error}`);

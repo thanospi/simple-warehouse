@@ -22,7 +22,7 @@ export async function postRegister(req: Request, res: Response, next: any) {
 
   const userExists = await usersDB.getUser(name);
 
-  if (userExists && userExists[0]) {
+  if (userExists) {
     return next(new ErrorException(ErrorCode.DuplicateUserError));
   }
 

@@ -15,14 +15,14 @@ export async function postLogin(req: Request, res: Response, next: any) {
 
   const userExists = await usersDB.getUser(name);
 
-  if (!userExists || !userExists[0]) {
+  if (!userExists) {
     return next(new ErrorException(ErrorCode.NoUserFoundError));
   }
 
-  const validPassword = comparePassword(password, userExists[0].password);
+  const validPassword = comparePassword(password, userExists.password);
   if (!validPassword) {
     return next(new ErrorException(ErrorCode.WrongPasswordError));
   }
 
-  res.json({ token: generateAuthToken(userExists[0]) });
+  res.json({ token: generateAuthToken(userExists) });
 }

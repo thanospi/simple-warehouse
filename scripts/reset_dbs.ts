@@ -1,4 +1,4 @@
-import { pool } from '../src/model/postgres-connect';
+// import { pool } from '../src/model/postgres-connect';
 
 import { promises as fs } from 'fs';
 
@@ -16,7 +16,7 @@ export const resetDatabase = async () => {
   );
 
   try {
-    await pool.query(recreate_sql_script);
+    // await pool.query(recreate_sql_script);
     console.log('recreated database: ', databaseName);
   } catch (error) {
     throw new Error(

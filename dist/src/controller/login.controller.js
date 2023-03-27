@@ -23,14 +23,14 @@ function postLogin(req, res, next) {
             return next(new error_exception_1.ErrorException(error_code_1.ErrorCode.NoNameOrPassword));
         }
         const userExists = yield users_db_1.usersDB.getUser(name);
-        if (!userExists || !userExists[0]) {
+        if (!userExists) {
             return next(new error_exception_1.ErrorException(error_code_1.ErrorCode.NoUserFoundError));
         }
-        const validPassword = (0, password_hash_1.comparePassword)(password, userExists[0].password);
+        const validPassword = (0, password_hash_1.comparePassword)(password, userExists.password);
         if (!validPassword) {
             return next(new error_exception_1.ErrorException(error_code_1.ErrorCode.WrongPasswordError));
         }
-        res.json({ token: (0, jwt_1.generateAuthToken)(userExists[0]) });
+        res.json({ token: (0, jwt_1.generateAuthToken)(userExists) });
     });
 }
 exports.postLogin = postLogin;

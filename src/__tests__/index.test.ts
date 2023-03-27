@@ -6,7 +6,7 @@ import { resetDatabase } from '../../scripts/reset_dbs';
 import request from 'supertest';
 
 import { app } from '../app';
-import { disconnect } from '../model/postgres-connect';
+// import { disconnect } from '../model/postgres-connect';
 
 const API_VERSION = process.env.API_VERSION;
 
@@ -18,7 +18,7 @@ describe('Launches API', () => {
   });
 
   afterAll(async () => {
-    await disconnect();
+    // await disconnect();
   });
 
   describe('Test POST /register', () => {

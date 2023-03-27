@@ -28,7 +28,7 @@ function postRegister(req, res, next) {
             return next(new error_exception_1.ErrorException(error_code_1.ErrorCode.WrongRegisterPasswordError));
         }
         const userExists = yield users_db_1.usersDB.getUser(name);
-        if (userExists && userExists[0]) {
+        if (userExists) {
             return next(new error_exception_1.ErrorException(error_code_1.ErrorCode.DuplicateUserError));
         }
         const hash = (0, password_hash_1.passwordHash)(password);
