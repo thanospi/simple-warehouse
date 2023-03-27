@@ -1,0 +1,7 @@
+dist/*
+!/dist/src/
+
+node_modules
+*.txt
+.angular
+client/skroutz-warehouse-front/dist
