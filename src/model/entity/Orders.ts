@@ -1,4 +1,5 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Clusters } from './Clusters';
 
 @Entity()
 export class Orders {
@@ -13,4 +14,8 @@ export class Orders {
 
   @Column({ type: 'boolean', default: false })
   scanned: boolean;
+
+  @ManyToOne(() => Clusters, (cluster) => cluster.name)
+  @JoinColumn({ name: 'postcode_area', referencedColumnName: 'postcode' })
+  clusterInfo: Clusters;
 }

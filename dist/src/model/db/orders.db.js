@@ -42,7 +42,11 @@ exports.ordersDB.getOrders = (parametersQuery) => __awaiter(void 0, void 0, void
         // ${parametersQuery ? whereSQLStringBuild : ''}
         // ORDER BY orders.voucher ASC
         // `);
-        const rows = yield ordersRepository.find();
+        const rows = yield ordersRepository.find({
+            relations: {
+                clusterInfo: true
+            }
+        });
         return rows;
     }
     catch (error) {

@@ -1,4 +1,5 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Clusters } from './Clusters';
 
 @Entity()
 export class Drivers {
@@ -7,4 +8,8 @@ export class Drivers {
 
   @Column({ type: 'varchar', length: 255, nullable: false, unique: true })
   cluster: string;
+
+  @OneToOne(() => Clusters, (cluster) => cluster.name)
+  @JoinColumn()
+  clusterID: Clusters;
 }

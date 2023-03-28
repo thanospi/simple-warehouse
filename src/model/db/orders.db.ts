@@ -40,7 +40,11 @@ ordersDB.getOrders = async (parametersQuery: any) => {
     // ORDER BY orders.voucher ASC
     // `);
 
-    const rows = await ordersRepository.find();
+    const rows = await ordersRepository.find({
+      relations: {
+        clusterInfo: true
+      }
+    });
 
     return rows;
   } catch (error) {

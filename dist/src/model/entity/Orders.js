@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Orders = void 0;
 const typeorm_1 = require("typeorm");
+const Clusters_1 = require("./Clusters");
 let Orders = class Orders {
 };
 __decorate([
@@ -22,6 +23,10 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ type: 'boolean', default: false })
 ], Orders.prototype, "scanned", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => Clusters_1.Clusters, (cluster) => cluster.name),
+    (0, typeorm_1.JoinColumn)({ name: 'postcode_area', referencedColumnName: 'postcode' })
+], Orders.prototype, "clusterInfo", void 0);
 Orders = __decorate([
     (0, typeorm_1.Entity)()
 ], Orders);

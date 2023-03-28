@@ -22,7 +22,16 @@ exports.driversDB.getDrivers = () => __awaiter(void 0, void 0, void 0, function*
         //   SELECT *
         //   FROM drivers
         //   `);
-        const rows = yield driversRepository.find();
+        // const rows = await driversRepository.find({
+        //   relations: {
+        //     clusters: true
+        //   }
+        // });
+        const rows = yield driversRepository.find({
+            relations: {
+                clusterID: true
+            }
+        });
         return rows;
     }
     catch (error) {

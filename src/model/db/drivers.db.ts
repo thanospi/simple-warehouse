@@ -1,4 +1,5 @@
 import { ErrorException } from 'src/error_handler/error-exception';
+import { Clusters } from '../entity/Clusters';
 import { Drivers } from '../entity/Drivers';
 import { Driver } from '../interface/IDriver';
 // import { pool } from '../postgres-connect';
@@ -16,7 +17,17 @@ driversDB.getDrivers = async () => {
     //   FROM drivers
     //   `);
 
-    const rows = await driversRepository.find();
+    // const rows = await driversRepository.find({
+    //   relations: {
+    //     clusters: true
+    //   }
+    // });
+
+    const rows = await driversRepository.find({
+      relations: {
+        clusterID: true
+      }
+    });
 
     return rows;
   } catch (error) {

@@ -16,7 +16,13 @@ clustersDB.getClusters = async () => {
     // FROM clusters
     // `);
 
-    const rows = await clusterRepository.find();
+    // const rows = await clusterRepository.find();
+
+    const rows = await clusterRepository.find({
+      relations: {
+        driverInfo: true
+      }
+    });
 
     return rows;
   } catch (error) {

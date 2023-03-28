@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Clusters = void 0;
 const typeorm_1 = require("typeorm");
+const Drivers_1 = require("./Drivers");
 let Clusters = class Clusters {
 };
 __decorate([
@@ -16,6 +17,9 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)({ type: 'varchar', length: 255, nullable: false, unique: true })
 ], Clusters.prototype, "postcode", void 0);
+__decorate([
+    (0, typeorm_1.OneToOne)(() => Drivers_1.Drivers, (driver) => driver.clusterID, { eager: true })
+], Clusters.prototype, "driverInfo", void 0);
 Clusters = __decorate([
     (0, typeorm_1.Entity)()
 ], Clusters);

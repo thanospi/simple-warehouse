@@ -22,7 +22,12 @@ exports.clustersDB.getClusters = () => __awaiter(void 0, void 0, void 0, functio
         // SELECT *
         // FROM clusters
         // `);
-        const rows = yield clusterRepository.find();
+        // const rows = await clusterRepository.find();
+        const rows = yield clusterRepository.find({
+            relations: {
+                driverInfo: true
+            }
+        });
         return rows;
     }
     catch (error) {
