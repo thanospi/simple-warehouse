@@ -1,5 +1,5 @@
-dist/*
-!/dist/src/
+/dist/*
+!/dist/src/front_build/*
 
 node_modules
 *.txt

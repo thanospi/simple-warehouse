@@ -8,10 +8,18 @@ import { Drivers } from './entity/Drivers';
 import { Clusters } from './entity/Clusters';
 
 const connectInfo = () => {
-  const config =
-    process.env.NODE_ENV === 'test'
-      ? JSON.parse(process.env.TEST_POSTGRES!)
-      : JSON.parse(process.env.POSTGRES!);
+  let config: any = {};
+
+  if (process.env.NODE_ENV === 'test') {
+    console.log('use test_pg configs');
+  } else {
+    console.log('config is set');
+    config.host = 'localhost';
+    config.user = 'postgres';
+    config.password = 'postgres';
+    config.database = 'skroutz';
+    config.port = 5442;
+  }
 
   return config;
 };
@@ -28,7 +36,8 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: false,
   entities: [Users, Orders, Clusters, Drivers],
-  migrations: [],
+  // entities: [`src/model/entity/**/*.ts`],
+  migrations: ['dist/src/model/migrations/*.js'],
   subscribers: []
 });
 
